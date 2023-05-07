@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Accounting (21410100045)</string>
+    <string name="judul_rekap">Rekap Transaksi Keuangan</string>
+    <string name="totalPemasukanRekap">Total Pemasukan (Debit)</string>
+    <string name="totalPengualaranRekap">Total Pengeluaran (Kredit)</string>
+    <string name="saldoRekap">Saldo</string>
+    <string name="tanggal_transaksi">Tanggal Transaksi</string>
+    <string name="id_transaksi">ID Transaksi</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="laporan">Laporan</string>
+    <string name="hapus">Hapus</string>
+    <string name="tambah_transaksi">Tambah Transaksi</string>
+    <string name="pilih_tanggal">Pilih Tanggal</string>
+    <string name="debit">Debit</string>
+    <string name="kredit">Kredit</string>
+    <string name="tambah">Tambah</string>
+</resources>
