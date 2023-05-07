@@ -17,25 +17,23 @@
         android:layout_height="3dp"
         android:layout_marginVertical="3dp" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="3dp"
-            android:text="@string/tambah_transaksi"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="18dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:layout_marginVertical="3dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="3dp"
+                android:text="@string/tambah_transaksi"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -78,9 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
+                    android:text="@string/pilih_tanggal"
                     android:textAlignment="textStart"
-                    android:textAllCaps="false"
-                    android:text="@string/pilih_tanggal" />
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 
@@ -131,30 +129,29 @@
                 android:inputType="number"
                 android:textColor="@color/black" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnTambah"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="25dp"
+                    android:text="@string/tambah" />
+
+                <Button
+                    android:id="@+id/btnLaporan"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Laporan" />
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btnTambah"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="@string/tambah"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/btnLaporan"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="Laporan"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+        
+    </ScrollView>
 
 </LinearLayout>
