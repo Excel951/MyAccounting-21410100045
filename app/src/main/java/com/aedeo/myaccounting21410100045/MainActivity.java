@@ -3,6 +3,7 @@ package com.aedeo.myaccounting21410100045;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,9 +32,11 @@ public class MainActivity extends AppCompatActivity {
     //    arraylist dari object transaksi
     ArrayList<Transaksi> listTransaksi = new ArrayList<Transaksi>();
     //    =======================================
-    String valueIDTransaksi, valueKeterangan;
-    Integer valueDebit, valueKredit, valueLogo;
-    Date valueTanggal;
+    String valueIDTransaksi = "", valueKeterangan = "";
+    Integer valueDebit = 0, valueKredit = 0, valueLogo = 0;
+    Date valueTanggal = null;
+
+    ListView listViewTransaksi;
     private Button pilihTanggal, btnLaporanMain, btnTambah;
     private EditText tanggal, inputId_transaksi, inputViewTanggal_transaksi, inputKet_transaksi, inputDebit_transaksi, inputKredit_transaksi;
 
@@ -39,14 +44,20 @@ public class MainActivity extends AppCompatActivity {
 
     private View myCoordinatorLayout;
 
+    private Context notif;
+
+    private AdapterListTransaksi adapterListTransaksi = new AdapterListTransaksi();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 //        Deklarasi Element
-//        View
-        myCoordinatorLayout = (View) findViewById(R.id.myCoordinatorLayout);
+//        List View
+        listViewTransaksi = (ListView) findViewById(R.id.listView_Transaksi);
+//        Context
+        notif = getApplicationContext();
 //        EditText
         tanggal = (EditText) findViewById(R.id.inputViewTanggal_transaksi);
         inputId_transaksi = (EditText) findViewById(R.id.inputId_transaksi);
@@ -75,10 +86,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("TES!!!", "onClick: TES");
                 getValueTransaksi();
-                if (valueDebit == valueKredit) {
+                if (valueIDTransaksi == "" || valueKeterangan == "" || valueTanggal == null) {
+//                    ketika ada kolom yang masih kosong
+                    String text = "Masih ada kolom yang kosong";
+                    Toast warning = Toast.makeText(notif, text, Toast.LENGTH_SHORT);
+                    warning.show();
+                } else if (valueDebit == valueKredit) {
 //                    ketika debit dan kredit sama besar
                     String text = "Debit dan Kredit tidak dapat sama besar";
-                    Snackbar warning = Snackbar.make(myCoordinatorLayout, text, Snackbar.LENGTH_SHORT);
+                    Toast warning = Toast.makeText(notif, text, Toast.LENGTH_SHORT);
                     warning.show();
                 } else {
 //                ===============================
@@ -87,13 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
 //                tambahkan object kedalam arraylist
                     listTransaksi.add(transaksi);
-//                for (int i = 0; i < listTransaksi.size(); i++) {
-//                    Log.d("TES!!!!!!", "onClick: " + listTransaksi.get(i).getIdTransaksi());
-//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getTanggalTransaksi());
-//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getUraian());
-//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getDebit());
-//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getKredit());
-//                }
+
+                    adapterListTransaksi = new AdapterListTransaksi(getApplicationContext(), listTransaksi);
+                    listViewTransaksi.setAdapter(adapterListTransaksi);
 //                ================================
                 }
             }
@@ -102,20 +114,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void getValueTransaksi() {
 //        fungsi untuk mengambil value dari inputan user
-        valueIDTransaksi = inputId_transaksi.getText().toString();
+//        ambil id transaksi
+        if (!inputId_transaksi.getText().toString().isEmpty()) {
+            valueIDTransaksi = inputId_transaksi.getText().toString();
+        }
+//        ambil tanggal transaksi
         try {
-            valueTanggal = sdf.parse(inputViewTanggal_transaksi.getText().toString());
+            if (!inputViewTanggal_transaksi.getText().toString().isEmpty()) {
+                valueTanggal = sdf.parse(inputViewTanggal_transaksi.getText().toString());
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        valueKeterangan = String.valueOf(inputKet_transaksi.getText());
-        valueDebit = Integer.valueOf(String.valueOf(inputDebit_transaksi.getText()));
-        valueKredit = Integer.valueOf(String.valueOf(inputKredit_transaksi.getText()));
+//        ambil keterangan
+        if (!inputKet_transaksi.getText().toString().isEmpty()) {
+            valueKeterangan = String.valueOf(inputKet_transaksi.getText());
+        }
+//        ambil debit dan kredit
+        if (!inputKredit_transaksi.getText().toString().isEmpty()) {
+            valueKredit = Integer.valueOf(inputKredit_transaksi.getText().toString());
+        }
+        if (!inputDebit_transaksi.getText().toString().isEmpty()) {
+            valueDebit = Integer.valueOf(inputDebit_transaksi.getText().toString());
+        }
+//        menentukan logo
         if (valueDebit > valueKredit) {
-            valueLogo = R.drawable.dLogo;
+            valueLogo = R.drawable.dlogo;
             valueKredit = 0;
         } else if (valueKredit > valueDebit) {
-            valueLogo = R.drawable.kLogo;
+            valueLogo = R.drawable.klogo;
             valueDebit = 0;
         }
     }
