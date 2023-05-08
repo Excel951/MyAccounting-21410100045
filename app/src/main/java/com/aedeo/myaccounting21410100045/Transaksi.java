@@ -1,9 +1,9 @@
 package com.aedeo.myaccounting21410100045;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Transaksi {
+public class Transaksi implements Serializable {
     String idTransaksi, uraian;
     Date tanggalTransaksi;
     Integer debit, kredit, logo;

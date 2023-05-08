@@ -66,15 +66,15 @@ public class AdapterListTransaksi extends BaseAdapter {
         TextView ketTransaksi = (TextView) view.findViewById(R.id.listItem_keterangan);
         TextView hrgTransaksi = (TextView) view.findViewById(R.id.listItem_harga);
         ImageView logoTransaksi = (ImageView) view.findViewById(R.id.listImg_Transaksi);
-//                String curDate=sdf.format(tanggalTransaksi.get(i).toString());
-//        tglTransaksi.setText();
+        String curDate = sdf.format(tanggalTransaksi.get(i));
+        tglTransaksi.setText(curDate);
         ketTransaksi.setText(uraian.get(i).toString());
         logoTransaksi.setImageResource(logo.get(i));
-//        if (debit.get(i) != 0) {
-//            hrgTransaksi.setText(kredit.get(i));
-//        } else {
-//            hrgTransaksi.setText(debit.get(i));
-//        }
+        if (debit.get(i) != 0) {
+            hrgTransaksi.setText(debit.get(i).toString());
+        } else {
+            hrgTransaksi.setText(kredit.get(i).toString());
+        }
         return view;
     }
 }

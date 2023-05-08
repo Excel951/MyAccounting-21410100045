@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     //    arraylist dari object transaksi
     ArrayList<Transaksi> listTransaksi = new ArrayList<Transaksi>();
+
     //    =======================================
     String valueIDTransaksi = "", valueKeterangan = "";
     Integer valueDebit = 0, valueKredit = 0, valueLogo = 0;
@@ -78,6 +80,33 @@ public class MainActivity extends AppCompatActivity {
 
 //        ketika klik button tambah
         tambahTransaksi();
+
+//        jika kembali dari rekap
+//        if (getIntent() != null) {
+//            Intent newIntent = getIntent();
+//            ArrayList<Transaksi> listTransaksiClone = (ArrayList<Transaksi>) newIntent.getSerializableExtra("list");
+//            listTransaksi = (ArrayList<Transaksi>) listTransaksiClone.clone();
+//
+////          masukkan ke dalam adapter
+//            adapterListTransaksi = new AdapterListTransaksi(getApplicationContext(), listTransaksi);
+////          implementasi list view
+//            listViewTransaksi.setAdapter(adapterListTransaksi);
+//        }
+    }
+
+    private void clearForm() {
+        inputId_transaksi.setText("");
+        inputViewTanggal_transaksi.setText("");
+        inputKet_transaksi.setText("");
+        inputDebit_transaksi.setText("");
+        inputKredit_transaksi.setText("");
+
+        valueIDTransaksi = "";
+        valueKeterangan = "";
+        valueDebit = 0;
+        valueKredit = 0;
+        valueLogo = 0;
+        valueTanggal = null;
     }
 
     private void tambahTransaksi() {
@@ -104,8 +133,17 @@ public class MainActivity extends AppCompatActivity {
 //                tambahkan object kedalam arraylist
                     listTransaksi.add(transaksi);
 
+//                    masukkan ke dalam adapter
                     adapterListTransaksi = new AdapterListTransaksi(getApplicationContext(), listTransaksi);
+//                    implementasi list view
                     listViewTransaksi.setAdapter(adapterListTransaksi);
+
+                    for (int i = 0; i < listTransaksi.size(); i++) {
+                        Log.d("TAG", "onClick: " + listTransaksi.get(i).getIdTransaksi());
+                    }
+
+//                    bersihkan form
+                    clearForm();
 //                ================================
                 }
             }
@@ -153,13 +191,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //        declare pindah rekap
                 Intent pindahRekap = new Intent(MainActivity.this, RekapTransaksi.class);
+//                Intent pindahRekap = new Intent(, RekapTransaksi.class);
 
 //        kirim data
-//pindahRekap.putExtra()
+//                pindahRekap.putParcelableArrayListExtra("ListTransaksi", );
+                pindahRekap.putExtra("list", listTransaksi);
 
 //        mulai activity
                 startActivity(pindahRekap);
-                finish();
             }
         });
     }
