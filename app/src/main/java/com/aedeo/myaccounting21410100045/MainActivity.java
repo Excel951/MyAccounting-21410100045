@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,12 +30,14 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Transaksi> listTransaksi = new ArrayList<Transaksi>();
     //    =======================================
     String valueIDTransaksi, valueKeterangan;
-    Integer valueDebit, valueKredit;
+    Integer valueDebit, valueKredit, valueLogo;
     Date valueTanggal;
     private Button pilihTanggal, btnLaporanMain, btnTambah;
     private EditText tanggal, inputId_transaksi, inputViewTanggal_transaksi, inputKet_transaksi, inputDebit_transaksi, inputKredit_transaksi;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+    private View myCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        Deklarasi Element
+//        View
+        myCoordinatorLayout = (View) findViewById(R.id.myCoordinatorLayout);
 //        EditText
         tanggal = (EditText) findViewById(R.id.inputViewTanggal_transaksi);
         inputId_transaksi = (EditText) findViewById(R.id.inputId_transaksi);
@@ -69,20 +75,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("TES!!!", "onClick: TES");
                 getValueTransaksi();
+                if (valueDebit == valueKredit) {
+//                    ketika debit dan kredit sama besar
+                    String text = "Debit dan Kredit tidak dapat sama besar";
+                    Snackbar warning = Snackbar.make(myCoordinatorLayout, text, Snackbar.LENGTH_SHORT);
+                    warning.show();
+                } else {
 //                ===============================
 //                masukkan transaksi ke dalam object
-                transaksi = new Transaksi(valueIDTransaksi, valueKeterangan, valueTanggal, valueDebit, valueKredit);
+                    transaksi = new Transaksi(valueIDTransaksi, valueKeterangan, valueTanggal, valueDebit, valueKredit, valueLogo);
 
 //                tambahkan object kedalam arraylist
-                listTransaksi.add(transaksi);
-                for (int i = 0; i < listTransaksi.size(); i++) {
-                    Log.d("TES!!!!!!", "onClick: " + listTransaksi.get(i).getIdTransaksi());
-                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getTanggalTransaksi());
-                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getUraian());
-                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getDebit());
-                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getKredit());
-                }
+                    listTransaksi.add(transaksi);
+//                for (int i = 0; i < listTransaksi.size(); i++) {
+//                    Log.d("TES!!!!!!", "onClick: " + listTransaksi.get(i).getIdTransaksi());
+//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getTanggalTransaksi());
+//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getUraian());
+//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getDebit());
+//                    Log.d("TES!!!!!!!", "onClick: " + listTransaksi.get(i).getKredit());
+//                }
 //                ================================
+                }
             }
         });
     }
@@ -98,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
         valueKeterangan = String.valueOf(inputKet_transaksi.getText());
         valueDebit = Integer.valueOf(String.valueOf(inputDebit_transaksi.getText()));
         valueKredit = Integer.valueOf(String.valueOf(inputKredit_transaksi.getText()));
+        if (valueDebit > valueKredit) {
+            valueLogo = R.drawable.dLogo;
+            valueKredit = 0;
+        } else if (valueKredit > valueDebit) {
+            valueLogo = R.drawable.kLogo;
+            valueDebit = 0;
+        }
     }
 
     private void pindahKeLaporan() {

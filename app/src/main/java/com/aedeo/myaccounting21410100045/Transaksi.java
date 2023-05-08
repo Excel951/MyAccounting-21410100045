@@ -6,17 +6,18 @@ import java.util.Date;
 public class Transaksi {
     String idTransaksi, uraian;
     Date tanggalTransaksi;
-    Integer debit, kredit;
+    Integer debit, kredit, logo;
 
     public Transaksi() {
     }
 
-    public Transaksi(String idTransaksi, String uraian, Date tanggalTransaksi, Integer debit, Integer kredit) {
+    public Transaksi(String idTransaksi, String uraian, Date tanggalTransaksi, Integer debit, Integer kredit, Integer logo) {
         this.idTransaksi = idTransaksi;
         this.uraian = uraian;
         this.tanggalTransaksi = tanggalTransaksi;
         this.debit = debit;
         this.kredit = kredit;
+        this.logo = logo;
     }
 
     public String getIdTransaksi() {
@@ -37,5 +38,9 @@ public class Transaksi {
 
     public Integer getKredit() {
         return kredit;
+    }
+
+    public Integer getLogo() {
+        return logo;
     }
 }
